@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { databaseConfig } from './config/database.config';
 import { DishesModule } from './modules/dishes/dishes.module';
+import { CustomersModule } from './modules/customers/customers.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { DishesModule } from './modules/dishes/dishes.module';
     TypeOrmModule.forRoot(databaseConfig),
     // Feature modules
     DishesModule,
+    CustomersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
