@@ -4,8 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { databaseConfig } from './config/database.config';
-import { DishesModule } from './modules/dishes/dishes.module';
 import { CustomersModule } from './modules/customers/customers.module';
+import { ProductsModule } from './modules/products/products.module';
+import { CategoriesModule } from './modules/categories/categories.module';
 
 @Module({
   imports: [
@@ -17,8 +18,9 @@ import { CustomersModule } from './modules/customers/customers.module';
     // TypeORM configuration
     TypeOrmModule.forRoot(databaseConfig),
     // Feature modules
-    DishesModule,
     CustomersModule,
+    ProductsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
