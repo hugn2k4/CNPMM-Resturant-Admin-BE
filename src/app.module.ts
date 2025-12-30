@@ -5,8 +5,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { databaseConfig } from './config/database.config';
 import { AuthModule } from './modules/auth/auth.module';
-import { DishesModule } from './modules/dishes/dishes.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { CustomersModule } from './modules/customers/customers.module';
 import { OrdersModule } from './modules/orders/orders.module';
+import { ProductsModule } from './modules/products/products.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
@@ -19,10 +21,12 @@ import { UsersModule } from './modules/users/users.module';
     // TypeORM configuration
     TypeOrmModule.forRoot(databaseConfig),
     // Feature modules
-    DishesModule,
     UsersModule,
     AuthModule,
     OrdersModule,
+    CustomersModule,
+    ProductsModule,
+    CategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
