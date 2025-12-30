@@ -11,11 +11,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { BulkUpdateStatusDto } from './dto/bulk-update-status.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { QueryOrderDto } from './dto/query-order.dto';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { BulkUpdateStatusDto } from './dto/bulk-update-status.dto';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')

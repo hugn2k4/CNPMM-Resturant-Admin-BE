@@ -5,10 +5,10 @@ import {
   Logger,
   NestInterceptor,
 } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { Request, Response } from 'express';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -42,7 +42,7 @@ export class LoggingInterceptor implements NestInterceptor {
       tap({
         next: (data: any) => {
           const duration = Date.now() - startTime;
-          
+
           // Thêm metadata vào response để frontend có thể log
           if (data && typeof data === 'object') {
             data._meta = {

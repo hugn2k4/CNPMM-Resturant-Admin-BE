@@ -1,4 +1,4 @@
-import { IsArray, IsEnum, IsString, ArrayNotEmpty } from 'class-validator';
+import { ArrayNotEmpty, IsArray, IsEnum, IsString } from 'class-validator';
 
 export class BulkUpdateStatusDto {
   @IsArray()

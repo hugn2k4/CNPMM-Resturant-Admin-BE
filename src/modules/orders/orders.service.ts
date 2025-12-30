@@ -6,11 +6,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
 import { MongoRepository } from 'typeorm';
+import { BulkUpdateStatusDto } from './dto/bulk-update-status.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { QueryOrderDto } from './dto/query-order.dto';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
-import { BulkUpdateStatusDto } from './dto/bulk-update-status.dto';
 import { Order } from './entities/order.entity';
 
 @Injectable()
@@ -31,7 +31,10 @@ export class OrdersService {
       ...createOrderDto,
       orderNumber,
       finalAmount,
-      paymentMethod: (createOrderDto.paymentMethod || 'COD') as 'COD' | 'banking' | 'e-wallet',
+      paymentMethod: (createOrderDto.paymentMethod || 'COD') as
+        | 'COD'
+        | 'banking'
+        | 'e-wallet',
       paymentStatus: 'pending' as const,
       orderStatus: 'pending' as const,
     });
@@ -121,10 +124,16 @@ export class OrdersService {
       order.note = updateOrderDto.note;
     }
     if (updateOrderDto.paymentMethod) {
-      order.paymentMethod = updateOrderDto.paymentMethod as 'COD' | 'banking' | 'e-wallet';
+      order.paymentMethod = updateOrderDto.paymentMethod as
+        | 'COD'
+        | 'banking'
+        | 'e-wallet';
     }
     if (updateOrderDto.paymentStatus) {
-      order.paymentStatus = updateOrderDto.paymentStatus as 'pending' | 'paid' | 'failed';
+      order.paymentStatus = updateOrderDto.paymentStatus as
+        | 'pending'
+        | 'paid'
+        | 'failed';
     }
     if (updateOrderDto.shippingAddress) {
       order.shippingAddress = updateOrderDto.shippingAddress;
