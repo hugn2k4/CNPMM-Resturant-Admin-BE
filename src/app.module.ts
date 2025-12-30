@@ -4,9 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { databaseConfig } from './config/database.config';
-import { CustomersModule } from './modules/customers/customers.module';
-import { ProductsModule } from './modules/products/products.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { CustomersModule } from './modules/customers/customers.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { ProductsModule } from './modules/products/products.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -18,6 +21,9 @@ import { CategoriesModule } from './modules/categories/categories.module';
     // TypeORM configuration
     TypeOrmModule.forRoot(databaseConfig),
     // Feature modules
+    UsersModule,
+    AuthModule,
+    OrdersModule,
     CustomersModule,
     ProductsModule,
     CategoriesModule,
