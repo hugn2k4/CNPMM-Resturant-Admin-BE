@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { ObjectId } from 'mongodb';
 import { User } from './entities/user.entity';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
@@ -11,13 +11,23 @@ import * as bcrypt from 'bcrypt';
 export class CustomersService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: MongoRepository<User>,
   ) {}
 
+  // Helper to check if role is a customer role (case-insensitive)
+  private isCustomerRole(role: string): boolean {
+    return role?.toLowerCase() === 'user';
+  }
+
   async findAll() {
-    // Only get users with role USER
+    // Get users with role USER or user (case-insensitive support) using MongoDB $or operator
     const customers = await this.userRepository.find({
-      where: { role: 'USER' },
+      where: {
+        $or: [
+          { role: 'USER' },
+          { role: 'user' },
+        ],
+      } as any,
       order: { createdAt: 'DESC' },
     });
 
@@ -30,7 +40,7 @@ export class CustomersService {
       where: { _id: new ObjectId(id) as any },
     });
 
-    if (!customer || customer.role !== 'USER') {
+    if (!customer || !this.isCustomerRole(customer.role)) {
       throw new NotFoundException(`Customer with ID ${id} not found`);
     }
 
@@ -43,7 +53,7 @@ export class CustomersService {
       where: { _id: new ObjectId(id) as any },
     });
 
-    if (!customer || customer.role !== 'USER') {
+    if (!customer || !this.isCustomerRole(customer.role)) {
       throw new NotFoundException(`Customer with ID ${id} not found`);
     }
 
@@ -77,7 +87,7 @@ export class CustomersService {
       where: { _id: new ObjectId(id) as any },
     });
 
-    if (!customer || customer.role !== 'USER') {
+    if (!customer || !this.isCustomerRole(customer.role)) {
       throw new NotFoundException(`Customer with ID ${id} not found`);
     }
 
@@ -95,7 +105,7 @@ export class CustomersService {
       where: { _id: new ObjectId(id) as any },
     });
 
-    if (!customer || customer.role !== 'USER') {
+    if (!customer || !this.isCustomerRole(customer.role)) {
       throw new NotFoundException(`Customer with ID ${id} not found`);
     }
 
