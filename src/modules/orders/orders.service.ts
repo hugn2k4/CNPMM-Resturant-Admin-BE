@@ -286,18 +286,21 @@ export class OrdersService {
         groupFormat = 'daily';
     }
 
+    // Filter orders that are delivered and have deliveredAt within the period
     const orders = await this.orderRepository.find({
       where: {
         orderStatus: 'delivered',
-        createdAt: { $gte: startDate } as any,
+        deliveredAt: { $gte: startDate } as any,
       },
-      order: { createdAt: 'ASC' },
+      order: { deliveredAt: 'ASC' },
     });
 
-    // Group by date
+    // Group by deliveredAt date (not createdAt)
     const revenueByDate = new Map<string, number>();
     orders.forEach((order) => {
-      const date = new Date(order.createdAt);
+      // Use deliveredAt if available, otherwise fallback to createdAt
+      const deliveryDate = order.deliveredAt || order.createdAt;
+      const date = new Date(deliveryDate);
       let key: string;
 
       if (groupFormat === 'monthly') {
@@ -313,7 +316,8 @@ export class OrdersService {
       date,
       revenue,
       count: orders.filter((o) => {
-        const d = new Date(o.createdAt);
+        const deliveryDate = o.deliveredAt || o.createdAt;
+        const d = new Date(deliveryDate);
         const key =
           groupFormat === 'monthly'
             ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
