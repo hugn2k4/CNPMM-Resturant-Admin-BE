@@ -12,6 +12,7 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { OrdersModule } from './modules/orders/orders.module';
 import { ProductsModule } from './modules/products/products.module';
 import { UsersModule } from './modules/users/users.module';
+import { VouchersModule } from './modules/vouchers/vouchers.module';
 import { SeedModule } from './seed/seed.module';
 
 @Module({
@@ -32,6 +33,7 @@ import { SeedModule } from './seed/seed.module';
     ProductsModule,
     CategoriesModule,
     ChatModule,
+    VouchersModule,
     SeedModule,
   ],
   controllers: [AppController],
