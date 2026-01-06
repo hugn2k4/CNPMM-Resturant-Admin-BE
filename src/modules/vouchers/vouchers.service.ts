@@ -194,26 +194,15 @@ export class VouchersService {
   }> {
     const now = new Date();
 
-    const [total, active, expired, upcoming] = await Promise.all([
-      this.voucherRepository.count(),
-      this.voucherRepository.count({
-        where: {
-          isActive: true,
-          startDate: { $lte: now } as any,
-          endDate: { $gte: now } as any,
-        },
-      }),
-      this.voucherRepository.count({
-        where: {
-          endDate: { $lt: now } as any,
-        },
-      }),
-      this.voucherRepository.count({
-        where: {
-          startDate: { $gt: now } as any,
-        },
-      }),
-    ]);
+    // Get all vouchers and filter in memory since TypeORM MongoDB has issues with date operators
+    const allVouchers = await this.voucherRepository.find();
+
+    const total = allVouchers.length;
+    const active = allVouchers.filter(
+      (v) => v.isActive && v.startDate <= now && v.endDate >= now,
+    ).length;
+    const expired = allVouchers.filter((v) => v.endDate < now).length;
+    const upcoming = allVouchers.filter((v) => v.startDate > now).length;
 
     return { total, active, expired, upcoming };
   }
