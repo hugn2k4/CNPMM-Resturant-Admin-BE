@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
+import { IsNumber, IsOptional, Min } from 'class-validator';
 import { CreateVoucherDto } from './create-voucher.dto';
-import { IsOptional, IsNumber, Min } from 'class-validator';
 
 export class UpdateVoucherDto extends PartialType(CreateVoucherDto) {
   @IsOptional()

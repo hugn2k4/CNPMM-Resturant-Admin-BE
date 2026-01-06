@@ -1,17 +1,17 @@
+import { Type } from 'class-transformer';
 import {
-  IsString,
-  IsNotEmpty,
-  IsEnum,
-  IsNumber,
-  IsDate,
-  IsBoolean,
-  IsOptional,
   IsArray,
-  MinLength,
+  IsBoolean,
+  IsDate,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
   MaxLength,
   Min,
+  MinLength,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
 export class CreateVoucherDto {
   @IsString()
